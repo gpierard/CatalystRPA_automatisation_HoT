@@ -81,9 +81,9 @@ Par exemple,
 #| code-fold: false
 
 # PYTHON
-mycolumn = [0, 1, 2, 3, 4]
+mycolumn = list(range(5)) #[0, 1, 2, 3, 4]
 
-# implicit loop on a python list
+# implicit loop on a python list with list comprehension
 
 [10/x for x in mycolumn] # ERROR: ZeroDivisionError: division by zero
 
