@@ -1,0 +1,174 @@
+---
+author: "CatalystRPA"
+title: "Automation of repetitive tasks"
+subtitle: "Using classical programming and Robotic Process Automation"
+format: 
+  html: 
+    embed-resources: true
+editor: source
+date: last-modified
+toc: true
+title-block-banner: "#6699ff"
+title-block-banner-color: "#ffffff"
+published-title: "Last Published"
+editor_options: 
+  chunk_output_type: console
+---
+
+## Introduction 
+
+Les tâches liées aux données ne sont ont absolument (mais alors absolument) rien de nouveau.
+
+
+
+### Les Tableurs
+
+grande révolution dans la productivité bureautique, Excel !
+
+![we've come a long way](images/bill.png)
+
+Excel était en fait un produit phare des premières versions de mac et Windows, permettant un gain en productivité énorme.
+
+## Programmation, scripting et RPA
+
+Même si évidemment la programmation était déjà utilisée avant excel, on voit de plus en plus une migration des utilisateurs d'excel vers des outils de programmation comme Python et R. (certains appellent ces utilisateurs des "Citizen developers")
+
+Ces utilisateurs utilisent les outils de programmation à des fins de *scripting*, pour immédiatement en tirer de la valeur, dans des solutions pouvant être à court-terme.
+
+- Le *scripting* vise à utiliser un langage de programmation pour arriver à un but immédiat, comme explorer des données où automatiser une tâche répétitive, sans forcément recourir à un formalisme orienté objet. Nous utilisons le terme scipting comme synonyme de ***functional programming***, où on décompose les étapes du script et problèmes à résoudre en **fonctions** simples, là où l'objet orienté va utiliser des *objets* simples, comme des classes et leurs méthodes. R et python sont des exemples de langages supportant la programmation fonctionnelle, bien que l'OOP soit présent sur les deux.
+
+- La *programmation* classique quant à elle vise à créer des programmes et solutions robustes, souvent en paradigme OO, dans un but plus long terme que le scripting (mais nécessite une situation plus stable). 
+
+Nous démontrerons ici des techniques de scripting, bien que R et Python soient tout à fait capables de faire de l'OO (même si R est historiquement plus utilisé pour le scripting, et python pour un mix entre scripting et OO).
+
+### Quels outils choisir?
+
+Peu importe le paradigme utilisé, scripting ou OOP, la meilleure méthode pour automatiser les tâches répétitives par une ou plusieurs *applications business* reste d'intéragir avec les ***back-ends*** de ces applications, programmatiquement.
+
+Ca peut être fait soit via des objets comme des stored procedures dans des databases (SQL, RDBMS), soit via du scripting comme python, R etc.
+
+Toutefois, il existe des cas où intéragir programmatiquement de manière classique n'est pas possible comme par exemple quand on a uniquement accès au GUI de programmes comme SAP, où bien à une application web.
+
+Dans ces cas, on est obligé de travailler avec les éléments de l'UI. Typiquement on simule des clicks dans des éléments d'interface graphique.
+
+Dans ces cas, lorsqu'on est obligé de travailler avec une UI, alors on doit utiliser des outils spéciaux comme:
+
+1. Selenium en python (aussi disponible en version R): permet d'automatiser des actions et l'envoi / récupération de données vers un **browser** uniquement: chrome, firefox etc.
+
+2. Les outils de Robotic process automation (RPA) comme UIpath, BluePrism, Automation Anywhere, etc. permettent d'automatiser à la fois les web browsers, ainsi que la plupart des applications bureautiques installées en local comme le client SAP etc.
+
+En conclusion, 
+
+- Si vous pouvez éviter d'utiliser une interface visuelle dans votre solution, faites le. Préférez toujours une intéraction programmatique avec les back-ends des applications comme un premier choix, car cette approche offre la mailleure fiabilité et constance dans les résultats.
+- Si vous devez utiliser une interface graphique parce que vous n'avez pas accès aux ressources sous-jacentes à l'application, alors:
+  - Si l'interface à utiliser est un navigateur web, vous avez le choix entre Selenium (python ou R) et un outil de Robotic Process Automation comme UIPath.
+  - Si l'interface est un programme (client) installé en local, vous devez utliser un outil de RPA comme UIPath
+
+
+### Note: Python ou R?
+
+R est à notre sens meilleur pour le scripting, la flexibilité du langage offre la possibilité de créer des scripts fonctionnels extrêmement rapidement.
+
+Bien que [de nombreux paradigmes OO sont présents sur R](https://adv-r.hadley.nz/oo.html), leur nombre même rend leur utilisation quelque peu plus difficile qu'en python, car il faut connaître les différents paradigmes OOP présents sur R (S3, S4, R6...) et leurs différences.
+
+C'est d'ailleurs une illustration classique de la différence entre python et R. Là où python impose un cadre relativement stricte, qui rend l'écriture de scripts plus lente qu'avec R, le nombre d'options pour effectuer une opération donnée est beaucoup plus restraint qu'avec R. Cela facilite les décisions en termes de syntaxe, au prix de la flexibilité.
+
+cette flexibilité peut d'ailleurs avoir parfois un prix, et la liberté quasi totale accordée par R peut causer des résultats inattendus, qui seraient identifiés comme une erreur dans python.
+
+Par exemple,
+
+```{python, eval = F}
+#| code-fold: false
+
+# PYTHON
+mycolumn = [0, 1, 2, 3, 4]
+
+# implicit loop on a python list
+
+[10/x for x in mycolumn] # ERROR: ZeroDivisionError: division by zero
+
+```
+
+Python identifie une division par 0 comme une erreur, tandis que R:
+
+```{r , eval = T}
+#| code-fold: false
+
+# R
+mycolumn = c(0:4)
+# in R, many operations are vectorized natively
+
+10/mycolumn # 10/0 = Inf 
+```
+
+
+
+## Outils
+
+Les 3 principaux outils que nous allons utiliser sont:
+
+### R
+
+![](images/R.png)
+
+Créé en 1993 par Ross Ihaka and Robert Gentleman à Auckland
+
+Totalement Opensource, libre et gratuit d’utilisation dans le domaine commercial.
+
+Nombre de fonctionnalités (librairies) croissant, très utlisé par les scientifiques. 
+Outil multitâche, **parfait pour le *scripting* **.
+
+
+
+### Python
+
+Langage Orienté-objet créé par l’Hollandais Guido van Rossum en 1991
+
+![](images/python.png)
+
+Comme R, totalement Open-source et multi-plateformes
+A notre avis, moins simple que R et moins adapté a des programmes d’automatisation
+Par contre, il permet, comme les outils de RPA, la navigation dans des Web-browsers.
+
+
+### UIPath
+
+Compagnie Roumaine Fondée en 2005 à Bucharest par Daniel Dines and Marius Tîrcă
+
+![](images/uipath.png)
+
+Logiciel closed-source payant (pour les entreprises commerciales) qui ne nécessite pas de connaissance en programmation.
+Les programmes sont créés en glissant des activités et les agençant les unes aux autres
+L’outil typique de ce qu’on appelle la « RPA »
+La seule chose qui est différente entre les outils de RPA et de programmation classiques est la capacite a « espionner » et a manipuler des Interfaces utilisateur sous Windows.
+
+
+## QUARTO QUICKSTART
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+```{r reading-data-usp-resample, eval = T}
+#| code-fold: true
+
+print("gp: this code block will be folded")
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
