@@ -1,0 +1,317 @@
+---
+author: "CatalystRPA"
+title: "Automation of repetitive tasks"
+subtitle: "Using classical programming and Robotic Process Automation"
+format: 
+  html: 
+    embed-resources: true
+editor: source
+date: last-modified
+toc: true
+title-block-banner: "#6699ff"
+title-block-banner-color: "#ffffff"
+published-title: "Last Published"
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduction 
+
+Even though we are nowadays giving more and more importance to data and data-related tasks, they are absolutely nothing new. In this lesson we'll give you an overview of how to automate such repetitive tasks using either "classical" programming languages, as well as Robotic Process Automation tools. 
+
+![](images/barley.png)
+
+
+## Spreadsheet software
+
+More recently, Excel and other spreadsheets were a huge revolution for productivity, and was a cornerstone of the early Mac and Windows platforms..
+
+![we've come a long way](images/bill.png)
+
+The next step after excel is the widespread use of programmatic tools directly, which allows to expand the range of automation tasks compared to Excel, such as interacting with the User Interface of applications. 
+
+## Programming, scripting, and Robotic Process Automation
+
+Programming knowledge is becoming ever more widespread, and we see many users of Excel migrating towards, mostly, Python and R.
+
+Some call these users "Citizen Developers".
+
+The main use of these tools is for *scripting*, but can be used for programming robust solutions as well.
+
+*Scripting* aims at developing solutions that can immediately be valuable, either through automation or data exploration. It is most commonly done using the functional programming paradigm rather than object-oriented, although that of course differs from developer to developer. Functional programs decompose complex problems into simple *functions*, while Object-Oriented programs will use simple *objects*. What we we will showcase in this course is functional programming.
+
+from [functional languages](https://adv-r.hadley.nz/fp.html)
+
+> Recently, functional techniques have experienced a surge in interest because they can produce efficient and elegant solutions to many modern problems. A functional style tends to create functions that can easily be analysed in isolation (i.e. using only local information), and hence is often much easier to automatically optimise or parallelise. The traditional weaknesses of functional languages, poorer performance and sometimes unpredictable memory usage, have been much reduced in recent years. Functional programming is complementary to object-oriented programming, which has been the dominant programming paradigm for the last several decades.
+
+Python and R are multi-paradigm languages, supporting both of these concepts.
+
+
+### Which tools to choose?
+
+Regardless of the paradigm you choose, the best way to automate a task using a business application is through interacting with the back-end and / or the data directly, without relying on the User Interface. This can be done with stored procedures for exemple in databases, or using scripting languages.
+
+However, there are cases where doing so is not possible, like for example when you only have access to the graphical user interface of a program like SAP, or a business web application. 
+
+In these cases, we have to rely on the UI, and the good news is that even though this method is slower and less reliable, we can indeed programmatically interact with most UI's.
+
+This is where you will start building robots (bots) to do such tasks. 
+
+::: {.callout-caution}
+Some websites will put measures in place to detect and deny access to such robots. Typically, for example, betting and social media websites will use a CAPTCHA system (*Completely Automated Public Turing test to tell Computers and Humans Apart*) to deny access, and will ban users identified as bots. Applications such as Poker room clients, for example, will also include active protection against spying on their UI.
+:::
+
+Some specific tools are available to build such bots that can interact with UI elements. 
+
+1. *Browser automation libraries* such as [Selenium](https://www.selenium.dev/), available in Python, and [Rvest](https://rvest.tidyverse.org/) in R, allow to drive *browsers*, sending and retrieving data from the UI of Chrome, Edge, Firefox, Safari and so on. 
+
+2. *Robotic process Automation* tools are special programs in which users can, using *visual programming*, create programs that are able to automate the UI's of both web browsers and locally-installed target software such as the SAP client, for example.
+
+How to choose? 
+
+- If you can avoid using an UI in your automation tasks, do it. Always favor interacting with the back-ends or the data directly as a first choice, for better consistency, speed and reliability. 
+- If you need to interact with an UI because, for example, you don't  have access to the application back-end or data, then:
+  - If your target application is a web browser, you can choose between a classical programming library such as Selenium, and a  RPA tool. Ultimately, the choice is yours, though we do recommend using a classical library. If you prefer using visual programming, use RPA tools (although selenium offers a browser add-on to simplify the task of creating robots with minimal programming. See [Selenium IDE](https://www.selenium.dev/selenium-ide/))
+  - If your target application is a locally-installed client, you need to use RPA.
+
+
+```{mermaid}
+flowchart TD
+  UI{Do you need<br> to interact<br> with an UI?} --> Yes(Yes)
+  UI --> No(No)
+  No --> programming(Use programming)
+  Yes --> webb{Is the target app<br> a web browser?}
+  webb --> yesweb(Yes)
+  webb --> noweb(No)
+  noweb --> rpa(use an RPA tool)
+  yesweb --> visu{Do you really <br>prefer visual <br>programming?}
+  visu --> okvisu(I need visual<br> programming)
+  okvisu --> rpa
+  visu --> oknovisu(No, it's OK to use code)
+  oknovisu --> sel(Use a browser automation library such as Selenium with python, or Rvest in R)
+```
+
+
+
+### Python or R?
+
+We think that R is best for scripting, as it is extremely flexible and allows to create scripts very quickly.
+
+Some libraries such as Selenium are best used with python, natively (although R bindings exist with RSelenium).
+
+R is mostly used with functional, rather than Object-oriented, programming, although [many R libraries](https://adv-r.hadley.nz/oo.html) allow to use OP in R. Their number makes the task somewhat harder than in python, since you need to know the specificities of the specific OOP paradigm you want to use. In python, a specific OOP implementation is available natively.
+
+This is a classic example of the difference between those languages. Python imposses a relatively strict framework, and will error out more quickly than R when the behaviour of the program is unexpected. R allows for much more flexibility, and in many cases *guesses* what you're trying to do, which can sometimes lead to a surprising behaviour. In addition, several R packages modify the base R syntax by overloading the base operators, so you have effectively several style of syntax you can use in R, depending on which packages you load. This is because R exposes a very high level of [metaprogramming](https://adv-r.hadley.nz/metaprogramming.html).
+
+We think however that this is a worthwile price to pay for the huge degree of freedom and the quick development possibilities offered by R.
+
+Small example of the difference in behaviour:
+
+```{python, eval = F}
+#| code-fold: false
+
+# PYTHON
+mycolumn = list(range(5)) #[0, 1, 2, 3, 4]
+
+# implicit loop on a python list with list comprehension
+
+[10/x for x in mycolumn] # ERROR: ZeroDivisionError: division by zero
+
+```
+
+Python identifie une division par 0 comme une erreur, tandis que R:
+
+```{r , eval = T}
+#| code-fold: false
+
+# R
+mycolumn = c(0:4)
+# in R, many operations are vectorized natively
+
+10/mycolumn # 10/0 = Inf 
+```
+
+Enough for the introduction, let's move on to the content.
+
+## Tools used in this course
+
+The three main tools we will use are:
+
+### R
+
+![](images/R.png)
+
+created in 1993 by Ross Ihaka and Robert Gentleman in Auckland. It is free to use, even for commercial purposes. Multitask, great for scripting.
+
+### Python
+
+OOP and functional language created by the Dutchman Guido van Rossum in 1991
+
+![](images/python.png)
+
+Also fully Open-source and multi-platform.
+Its natively supports the Selenium library which allows the creation of web broser automation bots.
+
+### UIPath
+
+Romanian firm founded in 2005 in Bucharest by Daniel Dines and Marius Tîrcă.
+
+![](images/uipath.png)
+
+Closed-source, paying software (but a Community Edition is available), which uses Visual Programming. A classic example of what is called « RPA ». These tools allow to **spy** and interact with elements in an User Interface. An example video can be found [here](https://www.uipath.com/learning/video-tutorials/advanced-ui-automation).
+
+Of course, all these tools (R, Python, UIPath) can be combined, to exploit each others' capabilities in a hybrid solution. That's what we will showcase later.
+
+# Browser automation with Selenium
+
+Let's dive into a Selenium example and see how it actually works. Head to [Selenium - Getting Started](https://www.selenium.dev/documentation/webdriver/getting_started/) and install the python library.
+
+```pip install selenium```
+
+### Example
+```{python, eval = F}
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+driver = webdriver.Chrome() # start the chrome driver
+driver.implicitly_wait(1) # set an implicit wait time of 1 second
+driver.maximize_window()
+
+driver.get("https://www.google.com/?gl=us&hl=en&gws_rd=cr&pws=0")
+```
+
+In order to interact with the different elements, we can use Chrome DevTools
+
+> Chrome DevTools is a set of web developer tools built directly into the Google Chrome browser. DevTools can help you edit pages on-the-fly and diagnose problems quickly, which ultimately helps you build better websites, faster.
+
+Either right click on the element you need to interact with and select `inspect`, or use the `Ctrl+Shift+C` shortcut. Let's try that on the google search bar.
+
+![](images/google1.png)
+
+Let's zoom in on the elements.
+
+![](images/google2.png)
+
+We see that an html tag of the search bar is `textarea`, and it has a `title` attribute with value `Search`. Let's use that information back in our Selenium program.
+```{python, eval = F}
+text_areas = driver.find_elements(By.TAG_NAME, "textarea")
+len(text_areas) # 2
+```
+
+You can use a few methods to locate elements using `find_elements()` or `find_element()`. If the driver isn't able to find any element matching your criteria after the (implicit or explicit) timeout defined, `find_elements()` will return an empty list, whereas `find_element()` will throw a timeout error. 
+Here, we've found 2 elements with tag `textarea`. Let's get the title attribute for those using python list comprehension syntax.
+
+From the [python doc](https://docs.python.org/2/tutorial/datastructures.html)
+
+> List comprehensions provide a concise way to create lists. Common applications are to make new lists where each element is the result of some operations applied to each member of another sequence or iterable, or to create a subsequence of those elements that satisfy a certain condition.
+
+```{python, eval = F}
+titles = [x.get_attribute("title") for x in text_areas]
+titles.index("Search") # 0
+```
+
+The results may differ for you, but I get that `titles` equals `['Search', '']`, meaning that only the first element in my list has the `Search` title. We can extract the corresponding index of this element using the `index` method of the list.
+
+```{python, eval = F}
+searchbar = text_areas[titles.index("Search")]
+searchbar.clear() # clear any previously entered text
+searchbar.send_keys("CatalystRPA")
+searchbar.send_keys(Keys.ENTER)
+```
+
+We're now at the results page.
+
+```{python, eval = F}
+driver.current_url #'https://www.google.com/search?q=CatalystRPA&sca_esv=9 ... 
+``` 
+
+Let's retrieve the first result and click it. Like before, we can inspect the result link.
+
+
+![](images/gres.png)
+
+Here, it's slightly more complicated as we don't have meaningful class names, which means that these names can potentially change for each run of the robot. We do however have a parent `div` with `id="search"`
+
+```{python, eval = F}
+# retrieve the parent searchresult element
+searchresults = driver.find_elements(By.XPATH, "//div[@id='search']")
+len(searchresults) # 1
+searchres = searchresults[0]
+```
+
+Now that we've identified the parent element, we can narrow down our search. let's examine the `href` attributes of `a` tags contained in the search results. We can see that the `href` of the first element contains the link we're after. 
+
+```{python, eval = F}
+# check the first link of the results
+allresults = searchres.find_elements(By.TAG_NAME, "a")
+len(allresults) # 37
+allresults[0].get_attribute('href') # 'https://www.catalystrpa.com/' this is the correct element, first search result
+# however, this element is not clickable
+```
+
+Since that `a` element is not clickable, we can retrieve the first `h3` tag contained in `searchres`, and click it (of course we could have used the `href` URL directly with `driver.get(<url>`). There are often many ways to perform the same action, some more elegant than others. This is just an illustrative example. 
+
+```{python, eval = F}
+all_links = searchres.find_elements(By.TAG_NAME, "h3")
+len(all_links) # 12
+all_links[0].click() # OK
+
+driver.current_url # 'https://www.catalystrpa.com/ OK'
+# we could continue...
+```
+
+### Exercise: Selenium
+
+Click below to unfold the full script from the previous example, and use it as an example to create a similar python script in RStudio (or another IDE) using Selenium to find the website of your current organization on google and visit it. 
+
+```{python, eval = F}
+#| code-fold: true
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+driver = webdriver.Chrome() # start the chrome driver
+driver.implicitly_wait(1) # set an implicit wait time of 1 second
+driver.maximize_window()
+
+driver.get("https://www.google.com/?gl=us&hl=en&gws_rd=cr&pws=0") # US website
+text_areas = driver.find_elements(By.TAG_NAME, "textarea")
+len(text_areas)
+titles = [x.get_attribute("title") for x in text_areas]
+
+searchbar = text_areas[titles.index("Search")]
+searchbar.clear() # clear any previously entered text
+searchbar.send_keys("CatalystRPA")
+searchbar.send_keys(Keys.ENTER)
+driver.current_url
+
+# there are many div elements on the page
+div_elements = driver.find_elements(By.TAG_NAME, "div")
+len(div_elements) # 1251
+
+# retrieve the parent searchresult element
+searchresults = driver.find_elements(By.XPATH, "//div[@id='search']")
+len(searchresults) # 1
+searchres = searchresults[0]
+
+# check the first link of the results
+allresults = searchres.find_elements(By.TAG_NAME, "a")
+len(allresults) # 37
+allresults[0].get_attribute('href') # 'https://www.catalystrpa.com/' this is the correct element, first search result
+# however, this element is not clickable
+
+all_links = searchres.find_elements(By.TAG_NAME, "h3")
+len(all_links) # 12
+all_links[0].click() # OK
+
+driver.current_url # 'https://www.catalystrpa.com/'
+# we could continue...
+```
+
+### References
+
+::: {#refs}
+:::
+
+
+
+
+
