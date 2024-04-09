@@ -51,39 +51,38 @@ Functional programs decompose complex problems into simple *functions*, while Ob
 
 ### Which tools to choose?
 
-Peu importe le paradigme utilisé, scripting ou OOP, la meilleure méthode pour automatiser les tâches répétitives par une ou plusieurs *applications business* reste d'intéragir avec les ***back-ends*** de ces applications, programmatiquement.
+Regardless of the paradigm used, scripting or OOP, the best method for automating repetitive tasks by one or more *business applications* remains to interact with the ***back-ends*** of these applications, programmatically.
 
-Ca peut être fait soit via des objets comme des stored procedures dans des databases (SQL, RDBMS), soit via du scripting comme python, R etc.
+This can be done either via objects like stored procedures in databases (SQL, RDBMS), or via scripting like python, R etc using APIs.
 
-Toutefois, il existe des cas où intéragir programmatiquement de manière classique n'est pas possible comme par exemple quand on a uniquement accès au GUI de programmes comme SAP, où bien à une application web.
+However, there are cases where interacting programmatically in a "classic way" is not possible, for example when you only have access to the GUI of programs like SAP, or to a web application.
 
-Dans ces cas, on est obligé de travailler avec les éléments de l'UI. Typiquement on simule des clicks dans des éléments d'interface graphique.
+In these cases, we are forced to work with the UI elements. Typically we simulate clicks on graphical interface elements or key pressend on keyboard.
 
-Dans ces cas, lorsqu'on est obligé de travailler avec une UI, alors on doit utiliser des outils spéciaux comme:
+In these cases, when you have to work with a UI, then you have to use special tools like:
 
-1. Selenium en python (aussi disponible en version R): permet d'automatiser des actions et l'envoi / récupération de données vers un **browser** uniquement: chrome, firefox etc.
+1. Selenium in python (also available in R version): allows you to automate actions and the sending / retrieval of data to a **browser** only: Chrome, Firefox etc.
 
-2. Les outils de Robotic process automation (RPA) comme UIpath, BluePrism, Automation Anywhere, etc. permettent d'automatiser à la fois les web browsers, ainsi que la plupart des applications bureautiques installées en local comme le client SAP etc.
+2. Robotic process automation (RPA) tools like UIpath, BluePrism, Automation Anywhere, etc. can automate both web browsers, as well as most office applications installed locally such as the SAP client etc.
 
-En conclusion, 
+In conclusion,
 
-- Si vous pouvez éviter d'utiliser une interface visuelle dans votre solution, faites le. Préférez toujours une intéraction programmatique avec les back-ends des applications comme un premier choix, car cette approche offre la mailleure fiabilité et constance dans les résultats.
-- Si vous devez utiliser une interface graphique parce que vous n'avez pas accès aux ressources sous-jacentes à l'application, alors:
-  - Si l'interface à utiliser est un navigateur web, vous avez le choix entre Selenium (python ou R) et un outil de Robotic Process Automation comme UIPath.
-  - Si l'interface est un programme (client) installé en local, vous devez utliser un outil de RPA comme UIPath
+- If you can avoid using a visual interface in your solution, do so. Always prefer programmatic interaction with application backends as a first choice, as this approach offers the most reliability and consistency in results.
+- If you must use a GUI because you do not have access to the underlying resources of the application, then:
+  -> If the interface to use is a web browser, you have the choice between Selenium (python or R) and a Robotic Process Automation tool like UIPath.
+  -> If the interface is a program (client) installed locally, you must use an RPA tool like UIPath
 
+### Note: Python or R?
 
-### Note: Python ou R?
+In our opinion, R is better for scripting, the flexibility of the language offers the possibility of creating functional scripts extremely quickly.
 
-R est à notre sens meilleur pour le scripting, la flexibilité du langage offre la possibilité de créer des scripts fonctionnels extrêmement rapidement.
+Although [many OO paradigms are present in R](https://adv-r.hadley.nz/oo.html), their sheer number makes them somewhat more difficult to use than in python, because one must know the different OOP paradigms present on R (S3, S4, R6...) and their differences.
 
-Bien que [de nombreux paradigmes OO sont présents sur R](https://adv-r.hadley.nz/oo.html), leur nombre même rend leur utilisation quelque peu plus difficile qu'en python, car il faut connaître les différents paradigmes OOP présents sur R (S3, S4, R6...) et leurs différences.
+This is also a classic illustration of the difference between python and R. Where python imposes a relatively strict framework, which makes writing scripts slower than with R, the number of options to perform a given operation is much more restricted than with R. This makes syntax decisions easier, at the cost of flexibility.
 
-C'est d'ailleurs une illustration classique de la différence entre python et R. Là où python impose un cadre relativement stricte, qui rend l'écriture de scripts plus lente qu'avec R, le nombre d'options pour effectuer une opération donnée est beaucoup plus restraint qu'avec R. Cela facilite les décisions en termes de syntaxe, au prix de la flexibilité.
+This flexibility can sometimes have a price, and the almost total freedom granted by R can cause unexpected results, which would be identified as an error in python.
 
-cette flexibilité peut d'ailleurs avoir parfois un prix, et la liberté quasi totale accordée par R peut causer des résultats inattendus, qui seraient identifiés comme une erreur dans python.
-
-Par exemple,
+For example,
 
 ```{python, eval = F}
 #| code-fold: false
@@ -97,7 +96,7 @@ mycolumn = list(range(5)) #[0, 1, 2, 3, 4]
 
 ```
 
-Python identifie une division par 0 comme une erreur, tandis que R:
+Python identifies a division by 0 as an error, while R:
 
 ```{r , eval = T}
 #| code-fold: false
@@ -110,45 +109,42 @@ mycolumn = c(0:4)
 ```
 
 
+## Tools
 
-## Outils
-
-Les 3 principaux outils que nous allons utiliser sont:
+The 3 main tools we will use are:
 
 ### R
 
 ![](images/R.png)
 
-Créé en 1993 par Ross Ihaka and Robert Gentleman à Auckland
+Created in 1993 by Ross Ihaka and Robert Gentleman in Auckland
 
-Totalement Opensource, libre et gratuit d’utilisation dans le domaine commercial.
+Totally Opensource, free and free to use in the commercial domain.
 
-Nombre de fonctionnalités (librairies) croissant, très utlisé par les scientifiques. 
-Outil multitâche, **parfait pour le *scripting* **.
-
+Increasing number of functionalities (libraries), widely used by scientists.
+Multitasking tool, **perfect for *scripting* **.
 
 
 ### Python
 
-Langage Orienté-objet créé par l’Hollandais Guido van Rossum en 1991
+Object-Oriented Language created by the Dutchman Guido van Rossum in 1991
 
 ![](images/python.png)
 
-Comme R, totalement Open-source et multi-plateformes
-A notre avis, moins simple que R et moins adapté a des programmes d’automatisation
-Par contre, il permet, comme les outils de RPA, la navigation dans des Web-browsers.
-
+Like R, completely open-source and multi-platform
+In our opinion, less simple than R and less suitable for automation programs
+On the other hand, like RPA tools, it allows navigation in Web browsers.
 
 ### UIPath
 
-Compagnie Roumaine Fondée en 2005 à Bucharest par Daniel Dines and Marius Tîrcă
+Founded in Romania Founded in 2005 in Bucharest by Daniel Dines and Marius Tîrcă
 
 ![](images/uipath.png)
 
-Logiciel closed-source payant (pour les entreprises commerciales) qui ne nécessite pas de connaissance en programmation.
-Les programmes sont créés en glissant des activités et les agençant les unes aux autres
-L’outil typique de ce qu’on appelle la « RPA »
-La seule chose qui est différente entre les outils de RPA et de programmation classiques est la capacite a « espionner » et a manipuler des Interfaces utilisateur sous Windows.
+Closed-source software (for commercial businesses), paying licensed, that does not require programming knowledge.
+Programs/bots are created by dragging activities and arranging them together
+The typical tool of what is called “RPA”
+The only thing that is different between traditional RPA and programming tools is the ability to “spy” and manipulate User Interfaces on Windows.
 
 
 ## QUARTO QUICKSTART
