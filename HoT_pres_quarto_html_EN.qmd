@@ -9,11 +9,13 @@ editor: source
 date: last-modified
 toc: true
 title-block-banner: "#6699ff"
+# title-block-banner: images/hot.png
 title-block-banner-color: "#ffffff"
 published-title: "Last Published"
 editor_options: 
   chunk_output_type: console
 ---
+![](images/hot.png)
 
 # Introduction 
 
@@ -47,7 +49,7 @@ from [functional languages](https://adv-r.hadley.nz/fp.html)
 Python and R are multi-paradigm languages, supporting both of these concepts.
 
 
-### Which tools to choose?
+### Which tools to choose for an automation task?
 
 Regardless of the paradigm you choose, the best way to automate a task using a business application is through interacting with the back-end and / or the data directly, without relying on the User Interface. This can be done with stored procedures for exemple in databases, or using scripting languages.
 
@@ -92,7 +94,50 @@ flowchart TD
 ```
 
 
-### Python or R?
+## Tools used in this course
+
+The three main tools we will use are:
+
+### R
+
+![](images/R.png)
+
+created in 1993 by Ross Ihaka and Robert Gentleman in Auckland. It is free to use, even for commercial purposes. Multitask, great for scripting.
+
+The company behind the popular RStudio IDE recently changed its name to Posit, asserting its strategy of developing tools for both R and Python. 
+
+::: {.callout-tip}
+In this course, we will use the RStudio IDE to author and run both R and python scripts. 
+:::
+
+![New name for RStudio](images/posit2.png){fig-align="left"}
+
+For a more in-depth introduction of R, we suggest [https://r4ds.hadley.nz/](R for data science) by Posit's chief scientist, [Hadley Wickham](https://hadley.nz/).
+
+
+![Hadley Wickham](images/hadley.jpg){fig-align="left"}
+
+
+
+### Python
+
+OOP and functional language created by the Dutchman Guido van Rossum in 1991
+
+![](images/python.png)
+
+Like R, it is also fully Open-source and multi-platform.It natively supports the powerful Selenium library which allows the creation of web browser automation bots.
+
+### UIPath
+
+Romanian firm founded in 2005 in Bucharest by Daniel Dines and Marius Tîrcă.
+
+![](images/uipath.png)
+
+Closed-source, paying software (but a Community Edition is available), which uses Visual Programming. A classic example of what is called « RPA ». These tools allow to **spy** and interact with elements in an User Interface. An example video can be found [here](https://www.uipath.com/learning/video-tutorials/advanced-ui-automation).
+
+Of course, all these tools (R, Python, UIPath) can be combined, to exploit each others' capabilities in a hybrid solution. That's what we will showcase later.
+
+### Note: Python or R?
 
 We think that R is best for scripting, as it is extremely flexible and allows to create scripts very quickly.
 
@@ -133,34 +178,6 @@ mycolumn = c(0:4)
 Enough for the introduction, let's move on to the content.
 
 
-## Tools used in this course
-
-The three main tools we will use are:
-
-### R
-
-![](images/R.png)
-
-created in 1993 by Ross Ihaka and Robert Gentleman in Auckland. It is free to use, even for commercial purposes. Multitask, great for scripting.
-
-### Python
-
-OOP and functional language created by the Dutchman Guido van Rossum in 1991
-
-![](images/python.png)
-
-Also fully Open-source and multi-platform.
-Its natively supports the Selenium library which allows the creation of web broser automation bots.
-
-### UIPath
-
-Romanian firm founded in 2005 in Bucharest by Daniel Dines and Marius Tîrcă.
-
-![](images/uipath.png)
-
-Closed-source, paying software (but a Community Edition is available), which uses Visual Programming. A classic example of what is called « RPA ». These tools allow to **spy** and interact with elements in an User Interface. An example video can be found [here](https://www.uipath.com/learning/video-tutorials/advanced-ui-automation).
-
-Of course, all these tools (R, Python, UIPath) can be combined, to exploit each others' capabilities in a hybrid solution. That's what we will showcase later.
 
 ## Programming for Excel users
 
@@ -262,13 +279,17 @@ As you've seen before, the lack of vectorization in python sometimes calls for m
 
 ![Wes McKinney, creator of the pandas library for python, recently joined Posit](images/wes.jpg)
 
-On (https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html)[https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html] we can find a syntax correspondence table between R and pandas. 
+On [https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html) we can find a syntax correspondence table between R and pandas. 
 
 > Since pandas aims to provide a lot of the data manipulation and analysis functionality that people use R for, this page was started to provide a more detailed look at the R language and its many third party libraries as they relate to pandas. 
 
 #### Resolution draft in python
 
-Using pandas, we can perform the same kind of operations.
+We can indeed perform the same kind of operations with pandas in python.
+
+```
+pip install pandas
+```
 
 ```{python , eval = T}
 #| code-fold: true
@@ -276,20 +297,18 @@ Using pandas, we can perform the same kind of operations.
 import pandas as pd
 
 # Read the Excel file
-df = pd.read_excel("cars.xlsx")
+df = pd.read_excel("G:/Shared drives/CatalystRPA/Clients/Technifutur/Cours 09-2021/Exercices/Exercice 4/cars.xlsx")
 
 # Remove " Euro" from the 'Base.price' column and convert to numeric
-df['numprice'] = df['Base.price'].str.replace(' Euro', '').astype(float)
+df['numprice'] = df['Base price'].str.replace(' Euro', '').astype(float)
 
 # Part 1
-myfilter = df['Number.of.cylinders'] >= 6
+myfilter = df['Number of cylinders'] >= 6 # vectorized operations, as in R.
 df2 = df[myfilter]
 
 # Calculate the mean price
 meanprice1 = df2['numprice'].mean()
 print(meanprice1)
-
-# and so on...
 ```
 
 # Browser automation in Python with Selenium
