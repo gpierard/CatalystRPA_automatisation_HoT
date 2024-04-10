@@ -203,30 +203,29 @@ Note that by default python doesn't have vectorized operations. We need to use a
 
 This illustrates some differences between the two languages. There are often many ways to perform the same operation.
 
-### Example 2 :
+### Example 2: Under the hood
+
+Let's see how we can explore data using scripts.
 
 - Go to [https://github.com/gpierard/CatalystRPA_trainings_public](https://github.com/gpierard/CatalystRPA_trainings_public) and download the file `cars.xlsx`
-- Use Google to find a way to read this file in R or python, as you prefer 
+- Use Google to find a way to read this file in R or python, as you prefer.
 
 ::: {.callout-tip}
 [stackoverflow.com](stackoverflow.com) is very helpful 
 :::
 
 - Part 1: Calculate the mean price of vehicles with at least 6 cylinders.
-- Part2: Calculate the mean price of vehicles with at least 6 cylinders and 200HP.
+- Part 2: Calculate the mean price of vehicles with at least 6 cylinders and 200HP.
 
 
-
-Resolution (in R) - try by yourself first:
+#### Resolution (in R) - try by yourself first:
 
 ```{r , eval = T}
 #| code-fold: true
 
-setwd(r"{G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 4}")
-
 library(openxlsx) # install.packages("openxlsx")
 library(assertthat) # install.packages("assertthat")
-df <- read.xlsx("cars.xlsx")
+df <- read.xlsx(r"{G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 4\cars.xlsx}")
 df$numprice <- gsub(" Euro", "", df$Base.price, ignore.case = T)
 df$numprice <- as.numeric(df$numprice)
 
@@ -255,8 +254,45 @@ barplot(c(mean(df$numprice), meanprice1, meanprice2), main="Avg Price (EUR)", na
 ```
 
 
+#### Note: pandas, python and R
 
-# Browser automation with Selenium
+
+As you've seen before, the lack of vectorization in python sometimes calls for more elaborate (*"pythonic"*) syntax to perform simple operations in python. Pandas is a predominant library in python allowing to alleviate some of that overhead and allows to do in python some vectorized operations that natively exist in R. Its creator [Wes McKinney](https://wesmckinney.com/) recently [joined Posit](https://posit.co/blog/welcome-wes/). 
+
+
+![Wes McKinney, creator of the pandas library for python, recently joined Posit](images/wes.jpg)
+
+On (https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html)[https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html] we can find a syntax correspondence table between R and pandas. 
+
+> Since pandas aims to provide a lot of the data manipulation and analysis functionality that people use R for, this page was started to provide a more detailed look at the R language and its many third party libraries as they relate to pandas. 
+
+#### Resolution draft in python
+
+Using pandas, we can perform the same kind of operations.
+
+```{python , eval = T}
+#| code-fold: true
+
+import pandas as pd
+
+# Read the Excel file
+df = pd.read_excel("cars.xlsx")
+
+# Remove " Euro" from the 'Base.price' column and convert to numeric
+df['numprice'] = df['Base.price'].str.replace(' Euro', '').astype(float)
+
+# Part 1
+myfilter = df['Number.of.cylinders'] >= 6
+df2 = df[myfilter]
+
+# Calculate the mean price
+meanprice1 = df2['numprice'].mean()
+print(meanprice1)
+
+# and so on...
+```
+
+# Browser automation in Python with Selenium
 
 Now that we have some basic experience with R and Python, let's dive into browser automation with a Selenium example and see how it actually works. 
 
@@ -406,7 +442,7 @@ driver.current_url # 'https://www.catalystrpa.com/'
 # we could continue...
 ```
 
-# Combining functions and languages
+# Combining tools via functions and languages
 
 
 
