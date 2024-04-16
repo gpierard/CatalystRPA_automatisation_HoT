@@ -277,8 +277,8 @@ Let's see how we can explore data using scripts.
 In this first exercise, read 2 csv files as dataframes, and combine them together by appending the rows of the second one to the first one.
 
 ```{R, eval = T, echo=F}
-a <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\A.csv]")
-b <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\B.csv]")
+a <- read.csv(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\A.csv]")
+b <- read.csv(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\B.csv]")
 ```
 
 ```{R, eval = T}
@@ -303,8 +303,8 @@ In R:
 ```{R, eval = F}
 #| code-fold: true
 starttime <- Sys.time()
-a <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\A.csv]")
-b <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\B.csv]")
+a <- read.csv(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\A.csv]")
+b <- read.csv(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\B.csv]")
 result <- rbind(a,b) # concatenating data from both files
 result$double_age <- result$Age*2
 endtime <- Sys.time()
@@ -321,8 +321,9 @@ import pandas as pd
 starttime = time.time()
 
 # Read CSV files
-a = pd.read_csv(r"G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\A.csv")
-b = pd.read_csv(r"G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\B.csv")
+a <- read.csv(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\A.csv]")
+b <- read.csv(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\B.csv]")
+
 
 # Concatenate dataframes
 result = pd.concat([a, b], ignore_index=True)
@@ -354,7 +355,7 @@ Again, [stackoverflow.com](stackoverflow.com) is a useful resource.
 
 library(openxlsx) # install.packages("openxlsx")
 library(assertthat) # install.packages("assertthat")
-df <- read.xlsx(r"{G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 4\cars.xlsx}")
+df <- read.xlsx(r"[C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\cars.xlsx]")
 df$numprice <- gsub(" Euro", "", df$Base.price, ignore.case = T)
 df$numprice <- as.numeric(df$numprice)
 
@@ -397,7 +398,7 @@ pip install pandas
 import pandas as pd
 
 # Read the Excel file
-df = pd.read_excel("G:/Shared drives/CatalystRPA/Clients/Technifutur/Cours 09-2021/Exercices/Exercice 4/cars.xlsx")
+df = pd.read_excel(r"C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\R\cars.xlsx")
 
 # Remove " Euro" from the 'Base.price' column and convert to numeric
 df['numprice'] = df['Base price'].str.replace(' Euro', '').astype(float)
