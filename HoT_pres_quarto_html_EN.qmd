@@ -642,7 +642,7 @@ The UIPath UI is defined in 4 main areas:
 
 ## Examples
 
-### Getting Exchange rate
+### Example 1: Getting Exchange rate
 
 The example will automate querying XRates from a website.
 
@@ -665,6 +665,8 @@ JPY;0,00521
 USD;0,80239
 CAD;0,58303
 ```
+
+![UIPath project](C:\CatalystRPA_automatisation_HoT-main\Exercices\Exemple 1\project.json)
 
 ### Exercise 2: Combining two files  
 
@@ -710,4 +712,4 @@ Diane,31,62
 Gregory,20,40
 ```
 
-
+![UIPath project](C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\UIPath\project.json)
