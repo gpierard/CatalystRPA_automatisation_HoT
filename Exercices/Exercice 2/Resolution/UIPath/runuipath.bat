@@ -1,0 +1,1 @@
+"C:\Users\gauth\AppData\Local\UiPath\app-21.4.3\UiRobot.exe" -f "G:\Shared drives\CatalystRPA\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\UIPath\Exceltest.xaml"
