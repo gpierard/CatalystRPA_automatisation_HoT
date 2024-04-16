@@ -666,7 +666,10 @@ USD;0,80239
 CAD;0,58303
 ```
 
-[UIPath project](explorer.exe C:\CatalystRPA_automatisation_HoT-main\Exercices\Exemple 1)
+```
+UIPath project 
+"C:\CatalystRPA_automatisation_HoT-main\Exercices\Exemple 1"
+```
 
 ### Exercise 2: Combining two files  
 
@@ -712,5 +715,8 @@ Diane,31,62
 Gregory,20,40
 ```
 
-[UIPath project](explorer.exe C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\UIPath)
+```
+UIPath project 
+"C:\CatalystRPA_automatisation_HoT-main\Exercices\Exercice 2\Resolution\UIPath"
+```
 
