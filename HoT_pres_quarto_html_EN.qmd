@@ -163,7 +163,7 @@ mycolumn = list(range(5)) #[0, 1, 2, 3, 4]
 
 ```
 
-Python identifie une division par 0 comme une erreur, tandis que R:
+Python throws an error when dividing by 0, whereas R returns `Inf`:
 
 ```{r , eval = T}
 #| code-fold: false
@@ -175,15 +175,27 @@ mycolumn = c(0:4)
 10/mycolumn # 10/0 = Inf 
 ```
 
-Enough for the introduction, let's move on to the content.
 
+#### Note: pandas, python and R
+
+As you've seen before, the lack of vectorization in python sometimes calls for more elaborate (*"pythonic"*) syntax to perform simple operations in python. Pandas is a predominant library available in python allowing to alleviate some of that overhead and allows to do in python some vectorized operations that natively exist in R. Its creator [Wes McKinney](https://wesmckinney.com/) recently [joined Posit](https://posit.co/blog/welcome-wes/). 
+
+
+![Wes McKinney, creator of the pandas library for python, recently joined Posit](images/wes.jpg)
+
+On [https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html) we can find a syntax correspondence table between R and pandas. 
+
+> Since pandas aims to provide a lot of the data manipulation and analysis functionality that people use R for, this page was started to provide a more detailed look at the R language and its many third party libraries as they relate to pandas. 
+
+
+Enough for the introduction, let's move on to the content.
 
 
 ## Programming for Excel users
 
 Programming may not be any more complicated than using Excel functions. Let's take examples in R:
 
-### Example 1: Sumif
+### The SUMIF excel formula
 
 ![](images/excel-sumif.png)
 This is how this basic example could be done (you can think about it before unfolding):
@@ -220,19 +232,119 @@ Note that by default python doesn't have vectorized operations. We need to use a
 
 This illustrates some differences between the two languages. There are often many ways to perform the same operation.
 
-### Example 2: Under the hood
+### The VLOOKUP excel formula
+
+```{R, eval = F}
+#| code-fold: false
+# Sample data
+df1 <- data.frame(ID = c(1, 2, 3, 4),
+                  Name = c("Alice", "Bob", "Charlie", "David"))
+
+df2 <- data.frame(ID = c(1, 2, 3, 4),
+                  Score = c(85, 90, 75, 80))
+
+# VLOOKUP in R
+df1$Score <- df2$Score[match(df1$ID, df2$ID)]
+
+#print(df1)
+```
+
+Try to use the above code into RStudio and examine the result `df1`. 
+
+
+```{python, eval = F}
+import pandas as pd
+
+# Sample data
+df1 = pd.DataFrame({'ID': [1, 2, 3, 4],
+                    'Name': ['Alice', 'Bob', 'Charlie', 'David']})
+
+df2 = pd.DataFrame({'ID': [1, 2, 3, 4],
+                    'Score': [85, 90, 75, 80]})
+
+# VLOOKUP in Python with pandas
+df1['Score'] = df1['ID'].map(df2.set_index('ID')['Score'])
+
+#print(df1)
+
+```
+
+In RStudio, create a new python script, execute the above code, and examine the result `df1`.
+
+### Exercise 1: combining two files  
 
 Let's see how we can explore data using scripts.
+In this first exercise, read 2 csv files as dataframes, and combine them together by appending the rows of the second one to the first one.
+
+```{R, eval = T, echo=F}
+a <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\A.csv]")
+b <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\B.csv]")
+```
+
+```{R, eval = T}
+#| code-fold: true
+a
+b
+```
+
+- Go to [https://github.com/gpierard/CatalystRPA_trainings_public](https://github.com/gpierard/CatalystRPA_trainings_public) and download the files `a.csv` and `b.csv`.
+- Use Google to find a way to read the files in R or python, as you prefer.
+- Combine these datasets together by adding the rows of the second file after the first one.
+
+::: {.callout-tip}
+[stackoverflow.com](stackoverflow.com) and chatGPT can be very helpful.
+:::
+
+
+Resolution (try yourself first)
+
+In R:
+
+```{R, eval = F}
+#| code-fold: true
+starttime <- Sys.time()
+a <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\A.csv]")
+b <- read.csv(r"[G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\B.csv]")
+result <- rbind(a,b) # concatenating data from both files
+result$double_age <- result$Age*2
+endtime <- Sys.time()
+endtime-starttime
+print(result)
+```
+
+In Python:
+
+```{python, eval = F}
+#| code-fold: true
+import pandas as pd
+
+starttime = time.time()
+
+# Read CSV files
+a = pd.read_csv(r"G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\A.csv")
+b = pd.read_csv(r"G:\Shared drives\CatalystRPA\Clients\Technifutur\Cours 09-2021\Exercices\Exercice 2\Resolution\R\B.csv")
+
+# Concatenate dataframes
+result = pd.concat([a, b], ignore_index=True)
+
+# Create a new column 'double_age' by doubling the 'Age' column
+result['double_age'] = result['Age'] * 2
+
+endtime = time.time()
+
+print(result)
+```
+
+### Exercise 2: Under the hood
+
+This second example is a bit more complicated.
 
 - Go to [https://github.com/gpierard/CatalystRPA_trainings_public](https://github.com/gpierard/CatalystRPA_trainings_public) and download the file `cars.xlsx`
 - Use Google to find a way to read this file in R or python, as you prefer.
-
-::: {.callout-tip}
-[stackoverflow.com](stackoverflow.com) is very helpful 
-:::
-
 - Part 1: Calculate the mean price of vehicles with at least 6 cylinders.
-- Part 2: Calculate the mean price of vehicles with at least 6 cylinders and 200HP.
+- Part 2: Calculate the mean price of vehicles with at least 6 cylinders and over 200HP.
+
+Again, [stackoverflow.com](stackoverflow.com) is a useful resource. 
 
 
 #### Resolution (in R) - try by yourself first:
@@ -257,33 +369,21 @@ df2 <- df[myfilter,]
 # class(df2)
 
 meanprice1 <- mean(df2$numprice)
-print(meanprice1)
+# print(meanprice1)
 
 
 # part 2 ------------------------------------------------------------------
 
 myfilter <- df$Number.of.cylinders>=6 & df$`Power.(HP)`>=200
 meanprice2 <- mean(df$numprice[myfilter])
-print(meanprice2)
+# print(meanprice2)
 
 barplot(c(mean(df$numprice), meanprice1, meanprice2), main="Avg Price (EUR)", names.arg = c("All vehicles", ">=6cyl", ">=6cyl/200HP"))
 
 ```
 
 
-#### Note: pandas, python and R
-
-
-As you've seen before, the lack of vectorization in python sometimes calls for more elaborate (*"pythonic"*) syntax to perform simple operations in python. Pandas is a predominant library in python allowing to alleviate some of that overhead and allows to do in python some vectorized operations that natively exist in R. Its creator [Wes McKinney](https://wesmckinney.com/) recently [joined Posit](https://posit.co/blog/welcome-wes/). 
-
-
-![Wes McKinney, creator of the pandas library for python, recently joined Posit](images/wes.jpg)
-
-On [https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_r.html) we can find a syntax correspondence table between R and pandas. 
-
-> Since pandas aims to provide a lot of the data manipulation and analysis functionality that people use R for, this page was started to provide a more detailed look at the R language and its many third party libraries as they relate to pandas. 
-
-#### Resolution draft in python
+#### Resolution in python
 
 We can indeed perform the same kind of operations with pandas in python.
 
@@ -308,8 +408,12 @@ df2 = df[myfilter]
 
 # Calculate the mean price
 meanprice1 = df2['numprice'].mean()
-print(meanprice1)
+# print(meanprice1)
+
+# remainder is left for you to finish
 ```
+
+As you can see, the pandas syntax in python is similar, and offers the same kind of capabilities than R, including vectorization. 
 
 # Browser automation in Python with Selenium
 
@@ -327,6 +431,7 @@ Head to [Selenium - Getting Started](https://www.selenium.dev/documentation/webd
 ```{python, eval = F}
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 driver = webdriver.Chrome() # start the chrome driver
 driver.implicitly_wait(1) # set an implicit wait time of 1 second
 driver.maximize_window()
@@ -408,8 +513,10 @@ Since that `a` element is not clickable, we can retrieve the first `h3` tag cont
 ```{python, eval = F}
 all_links = searchres.find_elements(By.TAG_NAME, "h3")
 len(all_links) # 12
-all_links[0].click() # OK
 
+allresults = searchres.find_elements(By.TAG_NAME, "a")
+links = [x.get_attribute('href') for x in allresults]
+all_links[links.index('https://www.catalystrpa.com/')].click() # OK
 driver.current_url # 'https://www.catalystrpa.com/ OK'
 # we could continue...
 ```
@@ -461,7 +568,25 @@ driver.current_url # 'https://www.catalystrpa.com/'
 # we could continue...
 ```
 
-# Combining tools via functions and languages
+## Combining tools 
+
+There are several ways to combine UIPath robots, R and python scripts.
+For example, we can use `system` in R to send system commands, or we can use the terminal directly.
+
+```
+system("python myscript.py")
+```
+To launch an R script from python, use 
+
+```
+subprocess.call ("/pathto/MyrScript.r")
+```
+
+To execute an UIPath sequence, we can use the UIRobot utility.
+
+```
+"C:\Users\{UserName}\AppData\Local\UiPath\app-20.4.1-beta0022\UiRobot.exe" "C:\UiPath\Automation\Main.xaml"
+```
 
 
 
