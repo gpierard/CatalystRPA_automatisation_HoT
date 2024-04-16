@@ -589,5 +589,125 @@ To execute an UIPath sequence, we can use the UIRobot utility.
 ```
 
 
+# UIPath 
+
+## Introduction
+UIPath is an automation tool to handle and manipulate the User Interface on Windows (RPA), but not only...
+
+## Concepts
+The idea of such tools is to be able to mimic the visual user experience and so to reproduce it several times. There is no need to code lines, even if UIPath allows you to provide lines of VB or C# code to be executed in specific endpoints...
+RPA projects in UIPath can be of several types. The main and most used are:
+- Robot implementing the automation of a process
+- Library allowing to describe specific repetitive elements as components to be reused inside Robots
+
+## Project
+A UIPath project is composed of one or more xaml files. A process must contain at least one xaml file called "Main.xaml".
+Xaml files contain and describe specific elements which compose a complete process.
+In this file type, you can describe:
+-	Sequence/WorkFlow
+-	Flowchart
+-	StateMachine
+-	GlobalHandler
+
+### Sequence/WorkFlow
+A Sequence xaml file allows to chain tasks called "activities" in a sequential manner.
+
+![](images/Sequence.png)
+
+### FlowChart
+Flowchart allow a representation of sequence of activities asx flow diagrams. It is mostly used to represent complex robots in the chaining of processes (sequences);
+
+![](images/Flowchart.png)
+
+### State Machine
+State Machines are mostly used to react on state change of elements. begining of state change and end of state change.
+
+### GlobalHandler
+GlobalHandler are used to define, describe and implement error handling in UIPath projects.
+You will define the error type you want to handle and the way to handle it.
+
+![](images/GlobalHandler.png)
+
+### Activity
+Any manipulation in UIPath is defined as an activity (click on a button, typing on a field, storing vale in a variable, creating a file, etc...). You combine them in sequences to have them executed in a specific order.
+
+##  Visual Interface 
+The UIPath UI is defined in 4 main areas:
+-	Vertical left panel => Projet/Activity/Snipets
+-	Vertical right panel => Object Repo/Properties/Outline/Resources/Activity Coverage
+-	Horizontal lower panel => Output/Error List/Find References/Breakpoints
+-	Central panel => main working panel where you define you processes in chained activites
+
+![](images/UIPathUI.png)
+
+## Examples
+
+### Getting Exchange rate
+
+The example will automate querying XRates from a website.
+
+(@) Looping through all (XRates) rows of an input file "othercurrencies.csv"
+
+```
+other_currencies
+JPY
+USD
+CAD
+```
+(@) go and get the xrate value against GBP
+(@) Store all XRates collected in a file "uiresult.csv"
+
+The resulting file is 
+
+```
+other_currencies;fxrate
+JPY;0,00521
+USD;0,80239
+CAD;0,58303
+```
+
+### Exercise 2: Combining two files  
+
+As already soled in R and Python, the goal is to merge 2 files and double each value...
+
+* Read A.csv
+
+```
+Name,Age
+Jack,22
+George,30
+David,54
+Eric,27
+Alex,45
+```
+
+* Read B.csv
+
+```
+Name,Age
+Michael,16
+Robert,80
+Janet,75
+Diane,31
+Gregory,20
+```
+
+* Merge A & B
+* Loop through all rows of the merged files and double the age in an additional columns called "double_age"
+* Write result in "uipath_result.csv"
+
+```
+Name,Age,double_age
+Jack,22,44
+George,30,60
+David,54,108
+Eric,27,54
+Alex,45,90
+Michael,16,32
+Robert,80,160
+Janet,75,150
+Diane,31,62
+Gregory,20,40
+```
 
 

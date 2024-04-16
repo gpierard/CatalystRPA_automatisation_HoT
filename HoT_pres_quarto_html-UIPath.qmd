@@ -66,3 +66,73 @@ The UIPath UI is defined in 4 main areas:
 -	Central panel => main working panel where you define you processes in chained activites
 
 ![](images/UIPathUI.png)
+## Examples
+
+### Getting Exchange rate
+
+The example will automate querying XRates from a website.
+
+(@) Looping through all (XRates) rows of an input file "othercurrencies.csv"
+
+```
+other_currencies
+JPY
+USD
+CAD
+```
+(@) go and get the xrate value against GBP
+(@) Store all XRates collected in a file "uiresult.csv"
+
+The resulting file is 
+
+```
+other_currencies;fxrate
+JPY;0,00521
+USD;0,80239
+CAD;0,58303
+```
+
+### Exercise 2: Combining two files  
+
+As already soled in R and Python, the goal is to merge 2 files and double each value...
+
+* Read A.csv
+
+```
+Name,Age
+Jack,22
+George,30
+David,54
+Eric,27
+Alex,45
+```
+
+* Read B.csv
+
+```
+Name,Age
+Michael,16
+Robert,80
+Janet,75
+Diane,31
+Gregory,20
+```
+
+* Merge A & B
+* Loop through all rows of the merged files and double the age in an additional columns called "double_age"
+* Write result in "uipath_result.csv"
+
+```
+Name,Age,double_age
+Jack,22,44
+George,30,60
+David,54,108
+Eric,27,54
+Alex,45,90
+Michael,16,32
+Robert,80,160
+Janet,75,150
+Diane,31,62
+Gregory,20,40
+```
+
