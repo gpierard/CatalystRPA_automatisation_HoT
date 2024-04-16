@@ -58,7 +58,7 @@ You will define the error type you want to handle and the way to handle it.
 ### Activités
 Any manipulation in UIPath is defined as an activity (click on a button, typing on a field, storing vale in a variable, creating a file, etc...). You combine them in sequences to have them executed in a specific order.
 
-##  Interface Visuelle
+##  Visual Interface 
 The UIPath UI is defined in 4 main areas:
 -	Vertical left panel => Projet/Activity/Snipets
 -	Vertical right panel => Object Repo/Properties/Outline/Resources/Activity Coverage
