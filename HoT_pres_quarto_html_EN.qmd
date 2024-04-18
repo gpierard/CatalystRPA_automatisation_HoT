@@ -17,6 +17,9 @@ editor_options:
 ---
 ![](images/hot.png)
 
+![](images/DLH.png)
+
+
 # Introduction 
 
 Even though we are nowadays giving more and more importance to data and data-related tasks, they are absolutely nothing new. In this lesson we'll give you an overview of how to automate such repetitive tasks using either "classical" programming languages, as well as Robotic Process Automation tools. 
